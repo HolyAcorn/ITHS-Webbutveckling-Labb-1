@@ -13,7 +13,7 @@
             <a class="nav-link foreground-primary" href="about.html">Om Oss</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link foreground-primary">
+            <a class="nav-link foreground-primary" href="cart.html">
               <i class="bi bi-cart"></i>
             </a>
           </li>

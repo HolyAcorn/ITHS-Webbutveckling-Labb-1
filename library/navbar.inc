@@ -13,7 +13,7 @@
             <a class="nav-link foreground-primary" href="about.html">Om Oss</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link foreground-primary" href="cart.html">
+            <a class="nav-link foreground-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
               <i class="bi bi-cart"></i>
             </a>
           </li>
@@ -21,3 +21,18 @@
       </div>
     </div>
   </nav>
+
+
+
+  <div class="offcanvas offcanvas-end background-dark" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title foreground-accent" id="offcanvasScrollingLabel">Kundvagn</h5>
+      <button type="button" class="btn-close button-primary-foreground" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div id="cart-products"  class="offcanvas-body">
+      
+
+
+      </div>
+    </div>
+  </div>

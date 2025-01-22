@@ -96,12 +96,12 @@ function createProductCard(product) {
             <div class="card background-main" style="width: 18rem;">
                 <img src="img/products/${product.id}.png" id="product-img" class="card-img-top" style="display:flex;justify-content:center;padding:15px" alt="${product.name}">
                 <div class="card-body">
-                    <h5 class="card-title" id="product-title">${product.name}</h5>
-                    <p class="card-text" id="product-desc">${product.description}</p>
+                    <h5 class="card-title foreground-primary" id="product-title">${product.name}</h5>
+                    <p class="card-text foreground-primary" id="product-desc">${product.description}</p>
                     <div class="container">
                         <div class="row">
                             <div class="col">
-                                <h5 id="product-price">${product.price} kr</h5>
+                                <h5 class="foreground-primary" id="product-price">${product.price} kr</h5>
                             </div>
                             <div class="col">
                                 <button onclick="addToCart(${product.id})" class="btn btn-primary">Lägg till</button>
@@ -113,13 +113,56 @@ function createProductCard(product) {
         </div>`;
 }
 
-const cart = [];
+function createCartProductCard(product) {
+    return `<div class="container text-center cart-container">
+      
+        <div  class="row">
+
+            <div class="col-2">
+              <img class="cart-product-image" src="img/products/${product.id}.png" alt="">
+            </div>
+            <div class="col">
+
+            <div class="container" >
+              <div class="row" >
+                <div>
+                  <h6 class="cart-product-title foreground-accent">${product.name}</h6>
+                </div>  
+                  <p class="foreground-primary">${product.price} SEK</p>
+                </div>
+              </div>
+            </div>
+
+            
+            <div class="col-1">
+              <a onclick="removeFromCart(${product.id})">
+                <i class="cart-remove-icon bi bi-dash-circle-fill button-primary-foreground"></i>
+              </a>
+            </div>
+
+        </div>
+      </div>`
+}
+
+let cart = [];
 
 let addToCart = function (value) {
-    console.log(value);
     cart.push(products.products[value].id);
-    localStorage.setItem("cart", cart);
-    console.log(cart);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    
+    renderCart();
+};
+
+let removeFromCart = function (value) {
+    console.log("Product ID: " + value);
+    cart = JSON.parse(localStorage.getItem("cart"));
+    if (cart.includes(value)) {
+        let index = cart.indexOf(value);
+        console.log("Index: " + index);
+        cart.splice(index, 1);
+        localStorage.setItem("cart", JSON.stringify(cart));
+        renderCart();
+  } 
 };
 
 function renderProducts() {
@@ -127,6 +170,19 @@ function renderProducts() {
     let filteredProducts = products.products.filter((w) => (w.type == localStorage.getItem("filter")) || localStorage.getItem("filter") == "");
     console.log(filteredProducts);
     container.innerHTML = filteredProducts.map(createProductCard).join('');
+}
+
+function renderCart() {
+    const container = document.getElementById("cart-products");
+    let _cart = JSON.parse(localStorage.getItem("cart"));
+    console.log("cart length:" + _cart.length);
+    console.log(_cart)
+    let cartProducts = [];
+    for (let i = 0; i < _cart.length; i++){
+        let item = _cart[i];
+        cartProducts.push(products.products[item]);
+    }
+    container.innerHTML = cartProducts.map(createCartProductCard).join('');
 }
 
 let setFilterTab = function (value) {
@@ -157,4 +213,9 @@ let navigateWithFilter = function (value) {
 document.addEventListener('DOMContentLoaded', function () {
     console.log("DOM har laddats");
     renderProducts();
+});
+
+document.addEventListener('show.bs.offcanvas', function () {
+    console.log("cart loaded");
+    renderCart();
 });
